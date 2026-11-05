@@ -24,7 +24,7 @@
 </script>
 <style>
 /* Tokens. Paper and navy come from the surat jalan the customer app prints; blue and orange are the
-   logo's own colours (aplikasi sadya.pdf). Orange is the one accent: the stamp, the docket ticks and
+   logo's own colours (aplikasi sadya.pdf). Orange is the one accent: the stamp, the closing note's ticks and
    the WhatsApp button, nothing else. */
 :root {
   --paper: #F4F2EC;
@@ -238,8 +238,8 @@ p { margin: 0; text-wrap: pretty; }
   .contact div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
 }
 
-/* The surat jalan itself, shared by the fixed docket and the closing card. Uppercase SURAT JALAN is
-   the real document's header, as the customer app prints it, not a decorative label. */
+/* The surat jalan of the closing card (the floating docket was taken out on 5 Nov at Firman's
+   request). Uppercase SURAT JALAN is the real document's header, not a decorative label. */
 .sj { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-sm); position: relative; }
 .sj__head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 18px 12px; border-bottom: 3px solid var(--orange); }
 .sj__head img { width: 112px; height: auto; }
@@ -253,26 +253,9 @@ p { margin: 0; text-wrap: pretty; }
 .sj__rows a { display: grid; grid-template-columns: 1.4rem minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 9px 18px; min-height: 40px; color: var(--ink); text-decoration: none; font-size: .92rem; }
 .sj__rows a::before { content: counter(r); color: var(--ink-soft); font-weight: 700; }
 .sj__rows a:hover { background: var(--paper); }
-.sj__rows a[aria-current="true"] { font-weight: 800; background: #EEEEFC; }
 .sj__rows i { font-style: normal; font-size: .76rem; font-weight: 600; color: var(--ink-soft); white-space: nowrap; }
-.sj__rows li.done i { color: var(--orange-ink); }
 .sj__foot { padding: 12px 18px 16px; border-top: 1px dashed var(--line); font-size: .82rem; color: var(--ink-soft); display: flex; justify-content: space-between; gap: 10px; }
 .sj__foot b { color: var(--ink); }
-
-.docket { position: fixed; z-index: 30; right: 20px; top: 50%; width: 264px; transform: translateY(-50%); box-shadow: 0 18px 40px -18px rgba(20, 21, 90, .35); opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
-.docket.show { opacity: 1; visibility: visible; }
-.docket__bar { display: none; }
-@media (max-width: 1179px) {
-  /* Phones and small laptops: the docket is a bar at the bottom that opens into the same note. */
-  .docket { right: 12px; left: 12px; top: auto; bottom: calc(10px + env(safe-area-inset-bottom)); width: auto; transform: none; background: transparent; border: 0; box-shadow: none; }
-  .docket__bar { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 12px; min-height: 52px; padding: 0 16px; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-md); box-shadow: 0 10px 30px -12px rgba(20, 21, 90, .45); font: 700 .95rem/1.2 var(--font); color: var(--ink); text-align: left; }
-  .docket__bar:hover { background: #FAF9F5; }
-  .docket__meter { display: block; width: 74px; height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; flex: none; }
-  .docket__meter i { display: block; height: 100%; width: 0; background: var(--orange-ink); transition: width .3s; }
-  .docket .sj { display: none; margin-bottom: 8px; box-shadow: 0 18px 40px -16px rgba(20, 21, 90, .45); max-height: 70svh; overflow: auto; }
-  .docket.open .sj { display: block; }
-  body { padding-bottom: 76px; }
-}
 
 /* the closing note and its stamp */
 .sj--final { box-shadow: 0 24px 50px -24px rgba(20, 21, 90, .4); overflow: hidden; }
@@ -335,27 +318,6 @@ p { margin: 0; text-wrap: pretty; }
   <div class="hero__floor" aria-hidden="true"></div>
 </header>
 
-<!-- The docket: the page's navigation, written as the surat jalan of this visit. -->
-<nav class="docket" id="docket" aria-label="Isi halaman">
-  <button class="docket__bar" type="button" aria-expanded="false" aria-controls="docket-note">
-    <span>Surat jalan halaman ini · <b data-dock-count>0 dari 6</b> terkirim</span>
-    <span class="docket__meter" aria-hidden="true"><i></i></span>
-  </button>
-  <div class="sj" id="docket-note">
-    <div class="sj__head"><img src="assets/wordmark.svg" width="112" height="33" alt="Sadya Kersa"><p class="sj__title"><b>SURAT JALAN</b><span>SJ-WEB-01</span></p></div>
-    <div class="sj__meta"><span>Kepada</span><b>Bapak/Ibu pembaca</b><span>Tanggal</span><b data-today>hari ini</b></div>
-    <ol class="sj__rows">
-      <li><a href="#angka">Sekolah yang kami layani<i>menunggu</i></a></li>
-      <li><a href="#katalog">Yang bisa dipesan<i>menunggu</i></a></li>
-      <li><a href="#pantau">Pantau pesanan<i>menunggu</i></a></li>
-      <li><a href="#cara">Cara kerja<i>menunggu</i></a></li>
-      <li><a href="#investor">Untuk investor<i>menunggu</i></a></li>
-      <li><a href="#kontak">Kontak<i>menunggu</i></a></li>
-    </ol>
-    <p class="sj__foot"><span>Terkirim</span><b data-dock-count>0 dari 6</b></p>
-  </div>
-</nav>
-
 <main id="isi">
 
   <section class="sec sec--paper proof" id="angka" aria-labelledby="angka-h">
@@ -367,7 +329,7 @@ p { margin: 0; text-wrap: pretty; }
       <div data-in style="--d:120ms">
         <ul class="figs">
           <li><b data-count="115">115</b><span><strong>sekolah</strong> pernah berbelanja ke Sadya Kersa sejak 2023.</span></li>
-          <li><b data-count="40">40</b><span><strong>sekolah</strong> berbelanja sepanjang 2025, dan 40 sekolah lagi pada 2026 sampai November.</span></li>
+          <li><b data-count="510">510</b><span><strong>invoice</strong> pesanan sekolah sudah kami selesaikan sejak 2023.</span></li>
         </ul>
         <p class="figs__src">Sumber: catatan transaksi Sadya Kersa, Januari 2023 sampai November 2026.</p>
       </div>
@@ -573,15 +535,6 @@ p { margin: 0; text-wrap: pretty; }
   }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
   $$('[data-in], [data-in-wipe]').forEach(function (el) { inIO.observe(el); });
 
-  // ---- the docket: rows tick as their chapter is delivered; rows are the page's navigation ----
-  var docket = $('#docket'), bar = $('.docket__bar', docket), rows = $$('.sj__rows a', docket);
-  var chapters = rows.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); });
-  var done = rows.map(function () { return false; });
-  var setOpen = function (open) { docket.classList.toggle('open', open); bar.setAttribute('aria-expanded', open ? 'true' : 'false'); };
-  bar.addEventListener('click', function () { setOpen(!docket.classList.contains('open')); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && docket.classList.contains('open')) { setOpen(false); bar.focus(); } });
-  rows.forEach(function (a) { a.addEventListener('click', function () { setOpen(false); }); });
-
   // ---- scroll-driven parts, one rAF per frame ----
   var hero = $('.hero'), bg = $('.hero__bg'), front = $('.hero__front');
   var pan = $('.pan'), rail = $('[data-rail]'), panStage = $('.pan__stage'), panDist = 0;
@@ -618,19 +571,8 @@ p { margin: 0; text-wrap: pretty; }
       }
       steps.forEach(function (el, i) { el.classList.toggle('done', i <= Math.min(2, c)); });
     }
-    // docket: visible after the hero, hidden once the stamped note at the close is in view
+    // the closing note is stamped once it comes into view
     var closeTop = closeNote.getBoundingClientRect().top;
-    docket.classList.toggle('show', y > hero.offsetHeight * 0.6 && closeTop > vh * 0.75);
-    var mark = vh * 0.45, count = 0, current = -1;
-    chapters.forEach(function (ch, i) {
-      var r = ch.getBoundingClientRect();
-      if (r.top < mark && !done[i]) { done[i] = true; rows[i].parentNode.classList.add('done'); rows[i].querySelector('i').textContent = 'terkirim ' + clock(); }
-      if (r.top < mark && r.bottom > mark) current = i;
-      if (done[i]) count++;
-    });
-    rows.forEach(function (a, i) { if (i === current) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
-    $$('[data-dock-count]').forEach(function (el) { el.textContent = count + ' dari ' + rows.length; });
-    $('.docket__meter i').style.width = (count / rows.length * 100) + '%';
     if (!stamped && closeTop < vh * 0.55) {
       stamped = true;
       $('[data-stamp-time]').textContent = 'Bandung, ' + clock();
