@@ -78,7 +78,9 @@ p { margin: 0; text-wrap: pretty; }
 /* ---------- hero: the whole background is video (Remotion HeroBg, sadya-kersa-web/video): the classroom
    delivery, then the six product clips, 22 s, seamless. The still paints first; the video fades in after load. ---------- */
 .hero { position: relative; min-height: 100svh; overflow: hidden; color: #fff; isolation: isolate; display: flex; flex-direction: column; }
-.hero__media { position: absolute; inset: -6% 0 auto; height: 112%; z-index: -3; will-change: transform; }
+/* Fits the hero exactly (Muji 6 Nov: "too zoomed in"). No overscan is needed for the drift: it only moves the
+   video down, and the strip it uncovers at the hero's top is always above the screen. */
+.hero__media { position: absolute; inset: 0; z-index: -3; will-change: transform; }
 .hero__bg, .hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 18% 50%; }
 .hero__video { opacity: 0; transition: opacity .8s ease; }
 .hero__video.on { opacity: 1; }
@@ -922,7 +924,7 @@ html.quote-open, html.quote-open body { overflow: hidden; }
     if (!reduce.matches) {
       // hero: the classroom lags behind the headline, which rides at 1x
       var hp = clamp(y / Math.max(1, hero.offsetHeight), 0, 1);
-      bg.style.transform = 'translate3d(0,' + (hp * 90).toFixed(1) + 'px,0) scale(' + (1.06 - hp * 0.04).toFixed(3) + ')';
+      bg.style.transform = 'translate3d(0,' + (hp * 90).toFixed(1) + 'px,0)';
       // catalogue: vertical scroll walks the shelf sideways
       var pp = clamp((y - top(pan)) / Math.max(1, panDist), 0, 1);
       rail.style.transform = 'translate3d(' + (-pp * panDist).toFixed(1) + 'px,0,0)';
