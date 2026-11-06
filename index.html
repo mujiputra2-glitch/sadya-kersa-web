@@ -20,8 +20,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
-<link rel="preload" as="image" href="assets/hero-kelas-1600.webp" media="(orientation: landscape)" fetchpriority="high">
-<link rel="preload" as="image" href="assets/hero-kelas-720.webp" media="(orientation: portrait)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/hero-bg-1280.webp" media="(orientation: landscape)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/hero-bg-720.webp" media="(orientation: portrait)" fetchpriority="high">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"LocalBusiness","name":"CV Sadya Kersa","url":"https://sadyakersa.com/","logo":"https://sadyakersa.com/assets/icon.png","image":"https://sadyakersa.com/assets/og-kelas.jpg","telephone":"+6281210472615","email":"sadyakersa@gmail.com","address":{"@type":"PostalAddress","streetAddress":"Jl. Majalengka No. 33","addressLocality":"Batununggal, Kota Bandung","addressRegion":"Jawa Barat","addressCountry":"ID"},"areaServed":"Bandung Raya","sameAs":["https://www.instagram.com/sadyakersa/"]}
 </script>
@@ -75,15 +75,15 @@ p { margin: 0; text-wrap: pretty; }
 .btn--line:active { background: rgba(255, 255, 255, .22); }
 .btn--line.on-paper:active { background: rgba(39, 40, 192, .14); }
 
-/* ---------- hero: a classroom loop (Kling 3.0, same frame first and last, so it repeats without a seam).
-   The still paints first; the video fades in over it after load. ---------- */
+/* ---------- hero: the whole background is video (Remotion HeroBg, sadya-kersa-web/video): the classroom
+   delivery, then the six product clips, 22 s, seamless. The still paints first; the video fades in after load. ---------- */
 .hero { position: relative; min-height: 100svh; overflow: hidden; color: #fff; isolation: isolate; display: flex; flex-direction: column; }
 .hero__media { position: absolute; inset: -6% 0 auto; height: 112%; z-index: -3; will-change: transform; }
 .hero__bg, .hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 18% 50%; }
 .hero__video { opacity: 0; transition: opacity .8s ease; }
 .hero__video.on { opacity: 1; }
 /* The scrim sits only where the copy sits (left on wide screens, top on phones). */
-.hero__scrim { position: absolute; inset: 0; z-index: -2; background: linear-gradient(90deg, rgba(20, 21, 90, .92) 0%, rgba(20, 21, 90, .8) 40%, rgba(20, 21, 90, .45) 68%, rgba(20, 21, 90, .32) 100%); }
+.hero__scrim { position: absolute; inset: 0; z-index: -2; background: linear-gradient(90deg, rgba(20, 21, 90, .92) 0%, rgba(20, 21, 90, .8) 38%, rgba(20, 21, 90, .34) 64%, rgba(20, 21, 90, .1) 100%); }
 .hero__top { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px var(--gutter); }
 .hero__logo { display: inline-flex; background: var(--paper); padding: 10px 14px; border-radius: var(--r-sm); }
 .hero__logo img { width: 150px; height: auto; }
@@ -91,21 +91,20 @@ p { margin: 0; text-wrap: pretty; }
 .hero__phone { color: #fff; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; background: rgba(20, 21, 90, .9); border-radius: var(--r-sm); }
 .hero__phone:hover { text-decoration: underline; }
 .hero__phone svg { width: 20px; height: 20px; }
-.hero__body { flex: 1; display: flex; align-items: center; justify-content: space-between; gap: clamp(32px, 5vw, 88px); padding: 24px var(--gutter) clamp(72px, 11vh, 120px); }
+.hero__body { flex: 1; display: flex; align-items: center; padding: 24px var(--gutter) clamp(72px, 11vh, 120px); }
 .hero__copy { max-width: 37rem; position: relative; z-index: 1; }
 .hero__place { font-weight: 700; color: #FFD9C9; margin-bottom: 18px; }
 .hero h1 { font-size: clamp(2.5rem, 6.2vw, 4.75rem); }
 .hero h1 em { font-style: normal; color: #FFB596; }
 .hero__lede { margin-top: 20px; font-size: clamp(1.08rem, 1.6vw, 1.28rem); color: #E8E8FF; max-width: 33rem; }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
-/* The floating product card (Remotion HeroCard, 4:5, 18 s seamless loop): drifts slowly, plays only on screen. */
-.hero__card { flex: none; position: relative; z-index: 1; width: clamp(280px, 30vw, 440px); aspect-ratio: 4 / 5; border-radius: 22px; overflow: hidden; background: var(--navy); box-shadow: 0 40px 80px -30px rgba(8, 9, 50, .75), 0 0 0 1px rgba(255, 255, 255, .18); transform: rotate(1.5deg); animation: card-drift 7s ease-in-out infinite; }
-.hero__card-video { display: block; width: 100%; height: 100%; object-fit: cover; }
-@keyframes card-drift { 0%, 100% { transform: translateY(0) rotate(1.5deg); } 50% { transform: translateY(-10px) rotate(.6deg); } }
-@media (max-width: 960px), (orientation: portrait) {
-  .hero__body { flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 32px; }
-  .hero__card { width: min(78vw, 360px); }
-}
+/* Caption for the product scenes, synced to the video by script (page text, so no screen crops it). */
+.hero__tag { position: absolute; z-index: 1; right: var(--gutter); bottom: clamp(104px, 15vh, 150px); width: min(340px, 40vw); padding: 12px 16px 14px; border-radius: 12px; background: rgba(20, 21, 90, .7); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); text-align: right; color: #fff; opacity: 0; transform: translateY(8px); transition: opacity .35s ease, transform .35s ease; pointer-events: none; }
+.hero__tag.on { opacity: 1; transform: none; }
+.hero__tag-k { display: block; font-size: .74rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #E8E8FF; }
+.hero__tag-n { display: block; margin-top: 2px; font-size: clamp(1.1rem, 1.6vw, 1.4rem); font-weight: 800; line-height: 1.2; }
+.hero__tag-bar { display: block; margin-top: 10px; height: 3px; border-radius: 2px; background: rgba(255, 255, 255, .35); overflow: hidden; }
+.hero__tag-bar i { display: block; width: 100%; height: 100%; background: #fff; transform-origin: left; transform: scaleX(0); }
 .hero__floor { position: absolute; left: 0; right: 0; bottom: 0; height: 90px; z-index: 1; background: linear-gradient(180deg, rgba(244, 242, 236, 0), var(--paper)); pointer-events: none; }
 @media (max-width: 760px) {
   .hero { min-height: 100svh; }
@@ -113,7 +112,8 @@ p { margin: 0; text-wrap: pretty; }
   .hero__scrim { background: linear-gradient(180deg, rgba(20, 21, 90, .94) 0%, rgba(20, 21, 90, .86) 46%, rgba(20, 21, 90, .3) 70%, rgba(20, 21, 90, 0) 86%); }
   .hero__logo img { width: 122px; }
   .hero__phone span { display: none; }
-  .hero__body { align-items: flex-start; padding-top: 8px; padding-bottom: 56px; }
+  .hero__body { align-items: flex-start; padding-top: 8px; padding-bottom: 36svh; }
+  .hero__tag { left: var(--gutter); right: auto; bottom: 104px; width: min(300px, 70vw); text-align: left; }
 }
 /* Upright tablets get the tall loop too, so they take the phone's top-down shade: the copy sits over the wall
    and windows, the delivery stays clear below. */
@@ -388,7 +388,6 @@ html.quote-open, html.quote-open body { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .hero__media, .rail { transform: none !important; }
   .hero__video { display: none; }
-  .hero__card { animation: none; }
   .js .pan, .js .pin { height: auto !important; }
   .js .pan__stage, .js .pin__stage { position: static; height: auto; padding-block: 72px; overflow: visible; }
   .rail { flex-wrap: wrap; width: auto; }
@@ -409,8 +408,8 @@ html.quote-open, html.quote-open body { overflow: hidden; }
 <header class="hero" id="mulai">
   <div class="hero__media">
     <picture>
-      <source media="(orientation: portrait)" srcset="assets/hero-kelas-720.webp" width="720" height="1280">
-      <img class="hero__bg" src="assets/hero-kelas-1600.webp" width="1600" height="900" fetchpriority="high" alt="Ruang kelas di pagi hari dengan kursi biru baru dan tumpukan kardus kiriman yang baru tiba">
+      <source media="(orientation: portrait)" srcset="assets/hero-bg-720.webp" width="720" height="1280">
+      <img class="hero__bg" src="assets/hero-bg-1280.webp" width="1280" height="720" fetchpriority="high" alt="Ruang kelas di pagi hari dengan kursi biru baru dan tumpukan kardus kiriman yang baru tiba">
     </picture>
     <video class="hero__video" muted playsinline loop preload="none" disablepictureinpicture aria-hidden="true" tabindex="-1"></video>
   </div>
@@ -434,9 +433,11 @@ html.quote-open, html.quote-open body { overflow: hidden; }
         <a class="btn btn--line" href="#pantau">Lihat cara kami mengirim</a>
       </div>
     </div>
-    <div class="hero__card" aria-hidden="true">
-      <video class="hero__card-video" muted playsinline loop preload="none" poster="assets/hero-card-poster.webp" width="640" height="800" disablepictureinpicture tabindex="-1"></video>
-    </div>
+  </div>
+  <div class="hero__tag" aria-hidden="true">
+    <span class="hero__tag-k"></span>
+    <b class="hero__tag-n"></b>
+    <span class="hero__tag-bar"><i></i></span>
   </div>
   <div class="hero__floor" aria-hidden="true"></div>
 </header>
@@ -711,7 +712,7 @@ html.quote-open, html.quote-open body { overflow: hidden; }
 
   // ---- hero loop: loads after the page, tall file on portrait screens; never on Data Saver, 2G or
   //      reduced motion (the still stays; Chrome reports many fine mobile links as 3g, so 3g still plays: the files are
-  //      0.3 to 0.5 MB). Paused while the hero is off screen or the tab is hidden. ----
+  //      1.7 to 2 MB and start only after the page has loaded). Paused while the hero is off screen or the tab is hidden. ----
   var heroVideo = $('.hero__video');
   if (heroVideo) (function () {
     var net = navigator.connection, tall = window.matchMedia('(orientation: portrait)');
@@ -720,7 +721,7 @@ html.quote-open, html.quote-open body { overflow: hidden; }
     var play = function () { var p = heroVideo.play(); if (p && p.catch) p.catch(function () {}); };
     function load() {
       if (skip()) { heroVideo.pause(); heroVideo.classList.remove('on'); return; }
-      var name = tall.matches ? 'hero-kelas-720' : 'hero-kelas-1600';
+      var name = tall.matches ? 'hero-bg-720' : 'hero-bg-1280';
       if (name !== current) {
         current = name;
         heroVideo.classList.remove('on');
@@ -729,7 +730,26 @@ html.quote-open, html.quote-open body { overflow: hidden; }
       }
       if (inView && !document.hidden) play();
     }
-    heroVideo.addEventListener('playing', function () { heroVideo.classList.add('on'); });
+    heroVideo.addEventListener('playing', function () { heroVideo.classList.add('on'); if (!capRunning) { capRunning = true; requestAnimationFrame(caption); } });
+    // Caption timing mirrors the Remotion HeroBg timeline: 4 s classroom, then six 3 s product scenes.
+    var tag = $('.hero__tag'), tagK = $('.hero__tag-k'), tagN = $('.hero__tag-n'), tagBar = $('.hero__tag-bar i'), shown = -2, capRunning = false;
+    var GROUP_NAMES = ['Perangkat TIK', 'Mebel sekolah', 'Renovasi dan perawatan gedung', 'Alat tulis dan administrasi', 'Olahraga dan kegiatan', 'Laboratorium, seni, dan praktik'];
+    function caption() {
+      if (heroVideo.paused || !heroVideo.classList.contains('on')) { tag.classList.remove('on'); shown = -2; capRunning = false; return; }
+      var t = heroVideo.currentTime - 4, i = t < 0.4 || t > 17.55 ? -1 : Math.min(5, Math.floor(t / 3));
+      if (i !== shown) {
+        shown = i;
+        tag.classList.remove('on');
+        if (i >= 0) {
+          tagK.textContent = '0' + (i + 1) + ' / 06 · Yang bisa dipesan';
+          tagN.textContent = GROUP_NAMES[i];
+          void tag.offsetWidth;
+          tag.classList.add('on');
+        }
+      }
+      if (i >= 0) tagBar.style.transform = 'scaleX(' + clamp((t - i * 3) / 3, 0, 1).toFixed(3) + ')';
+      requestAnimationFrame(caption);
+    }
     new IntersectionObserver(function (es) {
       inView = es[0].isIntersecting;
       if (!current) return;
@@ -739,29 +759,6 @@ html.quote-open, html.quote-open body { overflow: hidden; }
     if (tall.addEventListener) tall.addEventListener('change', load);
     if (reduce.addEventListener) reduce.addEventListener('change', load);
     if (document.readyState === 'complete') load(); else window.addEventListener('load', load);
-  })();
-
-  // ---- hero card: the product loop beside the headline. Loads after the page, plays only while on screen;
-  //      on Data Saver, 2G or reduced motion it stays its poster. ----
-  var heroCard = $('.hero__card-video');
-  if (heroCard) (function () {
-    var net = navigator.connection, loaded = false, seen = false;
-    var still = function () { return reduce.matches || !!(net && (net.saveData || /2g/.test(net.effectiveType || ''))); };
-    function start() {
-      if (still() || !seen) return;
-      if (!loaded) {
-        loaded = true;
-        heroCard.innerHTML = '<source src="assets/hero-card-640.webm" type="video/webm"><source src="assets/hero-card-640.mp4" type="video/mp4">';
-        heroCard.load();
-      }
-      var p = heroCard.play(); if (p && p.catch) p.catch(function () {});
-    }
-    new IntersectionObserver(function (es) {
-      seen = es[0].isIntersecting;
-      if (!seen) { heroCard.pause(); return; }
-      if (document.readyState === 'complete') start(); else window.addEventListener('load', start, { once: true });
-    }).observe(heroCard);
-    document.addEventListener('visibilitychange', function () { if (document.hidden) heroCard.pause(); else start(); });
   })();
 
   // ---- offer video: sources load the first time the card is on screen; plays only while visible. On Data
