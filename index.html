@@ -7,8 +7,8 @@
 <meta name="description" content="CV Sadya Kersa menyediakan komputer, mebel, alat tulis, perlengkapan olahraga, alat praktik, dan pekerjaan renovasi untuk sekolah di Bandung Raya. Setiap pesanan bisa dipantau sekolah dari HP.">
 <link rel="canonical" href="https://sadyakersa.com/">
 <meta name="theme-color" content="#2728C0">
-<!-- SIPLah store of CV Sadya Kersa. Empty keeps every SIPLah button hidden; paste the store URL to show them. -->
-<meta name="sk:siplah" content="">
+<!-- SIPLah store of CV Sadya Kersa (Toko Ladang, official store, checked 6 Nov 2026). Empty keeps every SIPLah button hidden. -->
+<meta name="sk:siplah" content="https://siplah.tokoladang.co.id/m/cv-sadya-kersa.30947">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="id_ID">
 <meta property="og:title" content="CV Sadya Kersa: sarana dan perlengkapan sekolah di Bandung">
@@ -83,7 +83,7 @@ p { margin: 0; text-wrap: pretty; }
 .hero__video { opacity: 0; transition: opacity .8s ease; }
 .hero__video.on { opacity: 1; }
 /* The scrim sits only where the copy sits (left on wide screens, top on phones). */
-.hero__scrim { position: absolute; inset: 0; z-index: -2; background: linear-gradient(90deg, rgba(20, 21, 90, .92) 0%, rgba(20, 21, 90, .78) 38%, rgba(20, 21, 90, .18) 64%, rgba(20, 21, 90, 0) 80%); }
+.hero__scrim { position: absolute; inset: 0; z-index: -2; background: linear-gradient(90deg, rgba(20, 21, 90, .92) 0%, rgba(20, 21, 90, .8) 40%, rgba(20, 21, 90, .45) 68%, rgba(20, 21, 90, .32) 100%); }
 .hero__top { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px var(--gutter); }
 .hero__logo { display: inline-flex; background: var(--paper); padding: 10px 14px; border-radius: var(--r-sm); }
 .hero__logo img { width: 150px; height: auto; }
@@ -91,13 +91,21 @@ p { margin: 0; text-wrap: pretty; }
 .hero__phone { color: #fff; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; background: rgba(20, 21, 90, .9); border-radius: var(--r-sm); }
 .hero__phone:hover { text-decoration: underline; }
 .hero__phone svg { width: 20px; height: 20px; }
-.hero__body { flex: 1; display: flex; align-items: center; padding: 24px var(--gutter) clamp(160px, 22vh, 220px); }
+.hero__body { flex: 1; display: flex; align-items: center; justify-content: space-between; gap: clamp(32px, 5vw, 88px); padding: 24px var(--gutter) clamp(72px, 11vh, 120px); }
 .hero__copy { max-width: 37rem; position: relative; z-index: 1; }
 .hero__place { font-weight: 700; color: #FFD9C9; margin-bottom: 18px; }
 .hero h1 { font-size: clamp(2.5rem, 6.2vw, 4.75rem); }
 .hero h1 em { font-style: normal; color: #FFB596; }
 .hero__lede { margin-top: 20px; font-size: clamp(1.08rem, 1.6vw, 1.28rem); color: #E8E8FF; max-width: 33rem; }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+/* The floating product card (Remotion HeroCard, 4:5, 18 s seamless loop): drifts slowly, plays only on screen. */
+.hero__card { flex: none; position: relative; z-index: 1; width: clamp(280px, 30vw, 440px); aspect-ratio: 4 / 5; border-radius: 22px; overflow: hidden; background: var(--navy); box-shadow: 0 40px 80px -30px rgba(8, 9, 50, .75), 0 0 0 1px rgba(255, 255, 255, .18); transform: rotate(1.5deg); animation: card-drift 7s ease-in-out infinite; }
+.hero__card-video { display: block; width: 100%; height: 100%; object-fit: cover; }
+@keyframes card-drift { 0%, 100% { transform: translateY(0) rotate(1.5deg); } 50% { transform: translateY(-10px) rotate(.6deg); } }
+@media (max-width: 960px), (orientation: portrait) {
+  .hero__body { flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 32px; }
+  .hero__card { width: min(78vw, 360px); }
+}
 .hero__floor { position: absolute; left: 0; right: 0; bottom: 0; height: 90px; z-index: 1; background: linear-gradient(180deg, rgba(244, 242, 236, 0), var(--paper)); pointer-events: none; }
 @media (max-width: 760px) {
   .hero { min-height: 100svh; }
@@ -105,7 +113,7 @@ p { margin: 0; text-wrap: pretty; }
   .hero__scrim { background: linear-gradient(180deg, rgba(20, 21, 90, .94) 0%, rgba(20, 21, 90, .86) 46%, rgba(20, 21, 90, .3) 70%, rgba(20, 21, 90, 0) 86%); }
   .hero__logo img { width: 122px; }
   .hero__phone span { display: none; }
-  .hero__body { align-items: flex-start; padding-top: 8px; padding-bottom: 46vw; }
+  .hero__body { align-items: flex-start; padding-top: 8px; padding-bottom: 56px; }
 }
 /* Upright tablets get the tall loop too, so they take the phone's top-down shade: the copy sits over the wall
    and windows, the delivery stays clear below. */
@@ -380,6 +388,7 @@ html.quote-open, html.quote-open body { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .hero__media, .rail { transform: none !important; }
   .hero__video { display: none; }
+  .hero__card { animation: none; }
   .js .pan, .js .pin { height: auto !important; }
   .js .pan__stage, .js .pin__stage { position: static; height: auto; padding-block: 72px; overflow: visible; }
   .rail { flex-wrap: wrap; width: auto; }
@@ -424,6 +433,9 @@ html.quote-open, html.quote-open body { overflow: hidden; }
           Minta penawaran</a>
         <a class="btn btn--line" href="#pantau">Lihat cara kami mengirim</a>
       </div>
+    </div>
+    <div class="hero__card" aria-hidden="true">
+      <video class="hero__card-video" muted playsinline loop preload="none" poster="assets/hero-card-poster.webp" width="640" height="800" disablepictureinpicture tabindex="-1"></video>
     </div>
   </div>
   <div class="hero__floor" aria-hidden="true"></div>
@@ -520,7 +532,7 @@ html.quote-open, html.quote-open body { overflow: hidden; }
       </div>
       <div class="wrap pan__foot">
         <p>Bisa dipesan lewat SIPLah atau langsung ke tim kami. Barang lain di luar daftar ini? <a href="https://wa.me/6281210472615?text=Halo%20Sadya%20Kersa%2C%20saya%20ingin%20minta%20penawaran%20untuk%20sekolah%20kami." target="_blank" rel="noopener" data-quote="Lainnya">Minta penawaran</a>.</p>
-        <a class="btn btn--line on-paper pan__siplah" href="#" target="_blank" rel="noopener" data-siplah hidden>Buka toko kami di SIPLah</a>
+        <a class="btn btn--line on-paper pan__siplah" href="#" target="_blank" rel="noopener" data-siplah hidden>Buka toko kami di SIPLah Toko Ladang</a>
       </div>
     </div>
   </section>
@@ -600,7 +612,7 @@ html.quote-open, html.quote-open body { overflow: hidden; }
         <dl class="contact">
           <div><dt>WhatsApp</dt><dd><a href="https://wa.me/6281210472615?text=Halo%20Sadya%20Kersa%2C%20saya%20ingin%20bertanya%20tentang%20kebutuhan%20sekolah." target="_blank" rel="noopener">0812 1047 2615</a></dd></div>
           <div><dt>Email</dt><dd><a href="mailto:sadyakersa@gmail.com">sadyakersa@gmail.com</a></dd></div>
-          <div data-siplah-row hidden><dt>SIPLah</dt><dd><a href="#" target="_blank" rel="noopener" data-siplah>Toko Sadya Kersa di SIPLah</a></dd></div>
+          <div data-siplah-row hidden><dt>SIPLah</dt><dd><a href="#" target="_blank" rel="noopener" data-siplah>CV. Sadya Kersa di SIPLah Toko Ladang</a></dd></div>
           <div><dt>Instagram</dt><dd><a href="https://www.instagram.com/sadyakersa/" target="_blank" rel="noopener">@sadyakersa</a></dd></div>
           <div><dt>Kantor</dt><dd><a href="https://www.google.com/maps/search/?api=1&amp;query=Jl.%20Majalengka%20No.%2033%2C%20Batununggal%2C%20Kota%20Bandung" target="_blank" rel="noopener">Jl. Majalengka No. 33, Batununggal, Kota Bandung</a></dd></div>
         </dl>
@@ -727,6 +739,29 @@ html.quote-open, html.quote-open body { overflow: hidden; }
     if (tall.addEventListener) tall.addEventListener('change', load);
     if (reduce.addEventListener) reduce.addEventListener('change', load);
     if (document.readyState === 'complete') load(); else window.addEventListener('load', load);
+  })();
+
+  // ---- hero card: the product loop beside the headline. Loads after the page, plays only while on screen;
+  //      on Data Saver, 2G or reduced motion it stays its poster. ----
+  var heroCard = $('.hero__card-video');
+  if (heroCard) (function () {
+    var net = navigator.connection, loaded = false, seen = false;
+    var still = function () { return reduce.matches || !!(net && (net.saveData || /2g/.test(net.effectiveType || ''))); };
+    function start() {
+      if (still() || !seen) return;
+      if (!loaded) {
+        loaded = true;
+        heroCard.innerHTML = '<source src="assets/hero-card-640.webm" type="video/webm"><source src="assets/hero-card-640.mp4" type="video/mp4">';
+        heroCard.load();
+      }
+      var p = heroCard.play(); if (p && p.catch) p.catch(function () {});
+    }
+    new IntersectionObserver(function (es) {
+      seen = es[0].isIntersecting;
+      if (!seen) { heroCard.pause(); return; }
+      if (document.readyState === 'complete') start(); else window.addEventListener('load', start, { once: true });
+    }).observe(heroCard);
+    document.addEventListener('visibilitychange', function () { if (document.hidden) heroCard.pause(); else start(); });
   })();
 
   // ---- offer video: sources load the first time the card is on screen; plays only while visible. On Data
