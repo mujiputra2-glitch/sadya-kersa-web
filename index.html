@@ -9,8 +9,8 @@
 <meta name="theme-color" content="#2728C0">
 <!-- SIPLah store of CV Sadya Kersa (Toko Ladang, official store, checked 6 Nov 2026). Empty keeps every SIPLah button hidden. -->
 <meta name="sk:siplah" content="https://siplah.tokoladang.co.id/m/cv-sadya-kersa.30947">
-<!-- Visit counter (7 Nov 2026): a real count kept by the dashboard API. The row under the figures shows once
-     the count reaches sk:visits-min; empty sk:visits turns the counter off. -->
+<!-- Visit counter (7 Nov 2026): a real count kept by the dashboard API. Since 9 Nov (Muji) the third figure is
+     12.358 (people reached by visits and word of mouth, data-base on the figure) plus this count. Empty = 12.358 only. -->
 <meta name="sk:visits" content="https://script.google.com/macros/s/AKfycbzYGYkdSKhkw48H_IDpvIGr997_NQLbkJFz80Xq3rOf5A6C4i5isMhZCxW6Nnm9zRsI/exec">
 <meta name="sk:visits-min" content="100">
 <meta property="og:type" content="website">
@@ -463,9 +463,9 @@ html.quote-open, html.quote-open body { overflow: hidden; }
         <ul class="figs">
           <li><b data-count="103" data-peta-jumlah>103</b><span><strong>sekolah mitra</strong> sejak 2023.</span></li>
           <li><b data-count="510">510</b><span><strong>invoice</strong> pesanan sekolah sudah kami selesaikan sejak 2023.</span></li>
-          <li class="figs__visits" data-visits hidden><b data-visits-n>0</b><span><strong>kunjungan</strong> ke situs ini sejak 7 November 2026, dihitung otomatis.</span></li>
+          <li class="figs__visits" data-visits><b data-count="12358" data-base="12358" data-visits-n>12.358</b><span><strong>orang kenal Sadya Kersa.</strong></span></li>
         </ul>
-        <p class="figs__src">Sumber: catatan transaksi Sadya Kersa, Januari 2023 sampai November 2026.</p>
+        <p class="figs__src">Sumber: catatan transaksi Sadya Kersa, Januari 2023 sampai November 2026. Jumlah orang dari kunjungan tim dan cerita dari mulut ke mulut, ditambah kunjungan ke situs ini.</p>
       </div>
     </div>
     <div class="wrap">
@@ -715,10 +715,27 @@ html.quote-open, html.quote-open body { overflow: hidden; }
   $$('[data-count]').forEach(function (el) { countIO.observe(el); });
 
   // ---- visits (7 Nov, Firman): a real count kept by the dashboard API. Only sadyakersa.com adds, at most
-  // once per browser per 30 minutes; elsewhere (previews, tests) the page only reads. Shown from sk:visits-min. ----
+  // once per browser per 30 minutes; elsewhere (previews, tests) the page only reads. Since 9 Nov (Muji) the
+  // count is added to data-base (12.358 people who know Sadya Kersa from visits and word of mouth). ----
   (function () {
     var api = ($('meta[name="sk:visits"]') || {}).content || '', row = $('[data-visits]');
     if (!api || !row || !window.fetch) return;
+    var base = +($('[data-visits-n]', row).getAttribute('data-base') || 0);
+    if (base) {
+      var add0 = 0;
+      if (/^(www\.)?sadyakersa\.com$/.test(location.hostname)) {
+        try {
+          if (Date.now() - (+localStorage.getItem('sk_visit_at') || 0) > 30 * 60000) { localStorage.setItem('sk_visit_at', String(Date.now())); add0 = 1; }
+        } catch (e) { add0 = 0; }
+      }
+      fetch(api + (api.indexOf('?') < 0 ? '?' : '&') + 'visit=' + add0, { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) {
+        var n = d && d.ok ? Math.floor(+d.visits) : 0, b = $('[data-visits-n]', row);
+        if (!(n >= 1)) return;
+        b.setAttribute('data-count', base + n);
+        b.textContent = (base + n).toLocaleString('id-ID');
+      }).catch(function () {});
+      return;
+    }
     var min = +(($('meta[name="sk:visits-min"]') || {}).content || 0), add = 0;
     if (/^(www\.)?sadyakersa\.com$/.test(location.hostname)) {
       try {
