@@ -9,6 +9,10 @@
 <meta name="theme-color" content="#2728C0">
 <!-- SIPLah store of CV Sadya Kersa (Toko Ladang, official store, checked 6 Nov 2026). Empty keeps every SIPLah button hidden. -->
 <meta name="sk:siplah" content="https://siplah.tokoladang.co.id/m/cv-sadya-kersa.30947">
+<!-- Visit counter (7 Nov 2026): a real count kept by the dashboard API. The row under the figures shows once
+     the count reaches sk:visits-min; empty sk:visits turns the counter off. -->
+<meta name="sk:visits" content="https://script.google.com/macros/s/AKfycbzYGYkdSKhkw48H_IDpvIGr997_NQLbkJFz80Xq3rOf5A6C4i5isMhZCxW6Nnm9zRsI/exec">
+<meta name="sk:visits-min" content="100">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="id_ID">
 <meta property="og:title" content="CV Sadya Kersa: sarana dan perlengkapan sekolah di Bandung">
@@ -142,9 +146,12 @@ p { margin: 0; text-wrap: pretty; }
 .figs span { color: var(--ink-soft); }
 .figs strong { color: var(--ink); }
 .figs__src { margin-top: 14px; font-size: .9rem; color: var(--ink-soft); }
+/* The visit count grows past four digits: its own number column, a step smaller. */
+.figs li.figs__visits { grid-template-columns: auto minmax(0, 1fr); }
+.figs li.figs__visits b { font-size: clamp(2.2rem, 4vw, 3rem); }
 @media (max-width: 760px) {
   .proof__grid { grid-template-columns: minmax(0, 1fr); }
-  .figs li { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .figs li, .figs li.figs__visits { grid-template-columns: minmax(0, 1fr); gap: 6px; }
 }
 
 /* Peta sekolah mitra: one big map, full width. Names show on hover or tap; the hidden list beside it keeps
@@ -456,6 +463,7 @@ html.quote-open, html.quote-open body { overflow: hidden; }
         <ul class="figs">
           <li><b data-count="103" data-peta-jumlah>103</b><span><strong>sekolah mitra</strong> sejak 2023.</span></li>
           <li><b data-count="510">510</b><span><strong>invoice</strong> pesanan sekolah sudah kami selesaikan sejak 2023.</span></li>
+          <li class="figs__visits" data-visits hidden><b data-visits-n>0</b><span><strong>kunjungan</strong> ke situs ini sejak 7 November 2026, dihitung otomatis.</span></li>
         </ul>
         <p class="figs__src">Sumber: catatan transaksi Sadya Kersa, Januari 2023 sampai November 2026.</p>
       </div>
@@ -699,12 +707,33 @@ html.quote-open, html.quote-open body { overflow: hidden; }
       var t0 = performance.now(), dur = 1400;
       (function tick(t) {
         var k = clamp((t - t0) / dur, 0, 1), v = 1 - Math.pow(1 - k, 3);
-        el.textContent = Math.round(to * v);
+        el.textContent = Math.round(to * v).toLocaleString('id-ID');
         if (k < 1) requestAnimationFrame(tick);
       })(t0);
     });
   }, { threshold: 0.5 });
   $$('[data-count]').forEach(function (el) { countIO.observe(el); });
+
+  // ---- visits (7 Nov, Firman): a real count kept by the dashboard API. Only sadyakersa.com adds, at most
+  // once per browser per 30 minutes; elsewhere (previews, tests) the page only reads. Shown from sk:visits-min. ----
+  (function () {
+    var api = ($('meta[name="sk:visits"]') || {}).content || '', row = $('[data-visits]');
+    if (!api || !row || !window.fetch) return;
+    var min = +(($('meta[name="sk:visits-min"]') || {}).content || 0), add = 0;
+    if (/^(www\.)?sadyakersa\.com$/.test(location.hostname)) {
+      try {
+        if (Date.now() - (+localStorage.getItem('sk_visit_at') || 0) > 30 * 60000) { localStorage.setItem('sk_visit_at', String(Date.now())); add = 1; }
+      } catch (e) { add = 0; }
+    }
+    fetch(api + (api.indexOf('?') < 0 ? '?' : '&') + 'visit=' + add, { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) {
+      var n = d && d.ok ? Math.floor(+d.visits) : 0, b = $('[data-visits-n]', row);
+      if (!(n >= 1) || n < min) return;
+      b.textContent = n.toLocaleString('id-ID');
+      b.setAttribute('data-count', n);
+      row.hidden = false;
+      countIO.observe(b);
+    }).catch(function () {});
+  })();
 
   // ---- entrances: once per element, only where the reading order benefits ----
   var inIO = new IntersectionObserver(function (es) {
